@@ -3,8 +3,11 @@ import axios from 'axios';
 import SearchBar from './SearchBar';
 
 class App extends React.Component {
+  // initialize state
+  state = { images: [] };
+
   // instead of .then we can use async
-  async onSearchSubmit(term) {
+  onSearchSubmit = async (term) => {
     // using axios which is like fetch, but better
     // use await instead of .then
     const response = await axios
@@ -15,7 +18,7 @@ class App extends React.Component {
       }
     });
 
-    console.log(response.data.results)
+    this.setState({ images: response.data.results });
   }
 
   render() {
@@ -23,6 +26,7 @@ class App extends React.Component {
       <div className="ui container" style={{ marginTop: '10px' }}>
         {/* pass searchbar prop, which a function */}
         <SearchBar onSubmit={this.onSearchSubmit} />
+        Found: {this.state.images.length} images
       </div>
     );
   } 
